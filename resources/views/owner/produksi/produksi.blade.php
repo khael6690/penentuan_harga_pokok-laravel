@@ -57,7 +57,10 @@
                                     <tr>
                                         <td>Produk</td>
                                         <td>:&nbsp;&nbsp;&nbsp;</td>
-                                        <td>{{$produk->nama_produk}}</td>
+                                        <td>{{$produk->nama_produk}} <br>
+                                        Jenis : {{@$produk->jenis}} <br>
+                                        Ukuran : {{@$produk->ukuran}}
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Kode Produksi</td>
@@ -80,14 +83,30 @@
                                 </div>
                                 <div class="card-body">
                                   <table class="table">
-                                    <tr>
-                                        <td>
-                                            Biaya Bahan Baku Langsung Standar
-                                        </td>
-                                        <td>
-                                            Rp {{ number_format($biaya_bahan_baku,2,',','.') }}
-                                        </td>
-                                    </tr>
+                                        @inject('Bahan', 'App\Models\Bahan')
+                                        @foreach ($bahan_baku as $row)
+                                        @php
+                                            $bahan = $Bahan::where('id',$row->bahan_id)->first();
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                {{$bahan->nama_bahan}}
+                                            </td>
+                                            <td>
+                                                Rp {{ number_format($bahan->harga_satuan,2,',','.') }} x {{$row->qty}}
+                                            </td>
+                                            <td>
+                                                Rp {{ number_format($row->total,2,',','.') }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                               = <b>Rp {{ number_format($biaya_bahan_baku,2,',','.') }}</b>
+                                            </td>
+                                        </tr>
                                   </table>
                                 </div>
                             </div>
@@ -98,14 +117,31 @@
                                 </div>
                                 <div class="card-body">
                                   <table class="table">
-                                    <tr>
-                                        <td>
-                                            Biaya Tenaga Kerja Langsung Standar
-                                        </td>
-                                        <td>
-                                            Rp {{ number_format($biaya_tenaga_kerja_langsung,2,',','.') }}
-                                        </td>
-                                    </tr>
+                                        @inject('TenagaKerja', 'App\Models\TenagaKerja')
+                                        @foreach ($tenaga_kerja_langsung as $row)
+                                        @php
+                                            $tk = $TenagaKerja::where('id',$row->tenaga_kerja_id)->first();
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                {{$tk->nama_tenaga_kerja}}
+                                            </td>
+                                            <td>
+                                                Rp {{ number_format($tk->upah,2,',','.') }} x {{$row->jam}} jam
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td>
+                                                Rp {{ number_format($row->total_tarif,2,',','.') }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                               = <b>Rp {{ number_format($biaya_tenaga_kerja_langsung,2,',','.') }}</b>
+                                            </td>
+                                        </tr>
                                   </table>
                                 </div>
                             </div>
@@ -115,15 +151,32 @@
                                     <strong>Biaya Overhead Pabrik Tetap Standar</strong>
                                 </div>
                                 <div class="card-body">
+                                  <strong>Biaya Tenaga Kerja Tidak Langsung Standar</strong> <br>
+                                            <table class="table">
+                                                    @inject('TenagaKerja', 'App\Models\TenagaKerja')
+                                                    @foreach ($tenaga_kerja_tidak_langsung as $row)
+                                                    @php
+                                                        $tk = $TenagaKerja::where('id',$row->tenaga_kerja_id)->first();
+                                                    @endphp
+                                                    <tr>
+                                                        <td>
+                                                            {{$tk->nama_tenaga_kerja}}
+                                                        </td>
+                                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                                        <td>
+                                                            Rp {{ number_format($row->total_tarif,2,',','.') }}
+                                                        </td>
+                                                    </tr>
+                                                    @endforeach
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>
+                                                           = <b>Rp {{ number_format($biaya_tenaga_kerja_tidak_langsung,2,',','.') }}</b>
+                                                        </td>
+                                                    </tr>
+                                              </table>
                                   <table class="table">
-                                    <tr>
-                                        <td>
-                                            Biaya Tenaga Kerja Tidak Langsung Standar
-                                        </td>
-                                        <td>
-                                            Rp {{ number_format($biaya_tenaga_kerja_tidak_langsung,2,',','.') }}
-                                        </td>
-                                    </tr>
                                     @php
                                         $total_overhead_tetap = 0;
                                     @endphp
@@ -135,11 +188,19 @@
                                         <td>
                                             {{$row->overhead}}
                                         </td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td>
                                             Rp {{ number_format($row->total,2,',','.') }}
                                         </td>
                                     </tr>
                                     @endforeach
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                           = <b>Rp {{ number_format($biaya_tenaga_kerja_tidak_langsung+$total_overhead_tetap,2,',','.') }}</b>
+                                        </td>
+                                    </tr>
                                   </table>
                                 </div>
                             </div>
@@ -149,15 +210,35 @@
                                     <strong>Biaya Overhead Pabrik Variabel Standar</strong>
                                 </div>
                                 <div class="card-body">
+                                    <strong>Biaya Bahan Penolong</strong><br>
+                                    <table class="table">
+                                        @inject('Bahan', 'App\Models\Bahan')
+                                        @foreach ($bahan_penolong as $row)
+                                        @php
+                                            $bahan = $Bahan::where('id',$row->bahan_id)->first();
+                                        @endphp
+                                        <tr>
+                                            <td>
+                                                {{$bahan->nama_bahan}}
+                                            </td>
+                                            <td>
+                                                Rp {{ number_format($bahan->harga_satuan,2,',','.') }} x {{$row->qty}}
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            </td>
+                                            <td>
+                                                Rp {{ number_format($row->total,2,',','.') }}
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td>
+                                               = <b>Rp {{ number_format($biaya_bahan_penolong,2,',','.') }}</b>
+                                            </td>
+                                        </tr>
+                                  </table>
                                   <table class="table">
-                                    <tr>
-                                        <td>
-                                            Biaya Bahan Penolong
-                                        </td>
-                                        <td>
-                                            Rp {{ number_format($biaya_bahan_penolong,2,',','.') }}
-                                        </td>
-                                    </tr>
                                     @php
                                         $total_overhead_variabel = 0;
                                     @endphp
@@ -169,11 +250,20 @@
                                         <td>
                                             {{$row->overhead}}
                                         </td>
+                                        </td>
+                                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td>
                                             Rp {{ number_format($row->total,2,',','.') }}
                                         </td>
                                     </tr>
                                     @endforeach
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                           = <b>Rp {{ number_format($biaya_bahan_penolong+$total_overhead_variabel,2,',','.') }}</b>
+                                        </td>
+                                    </tr>
                                   </table>
                                 </div>
                             </div>

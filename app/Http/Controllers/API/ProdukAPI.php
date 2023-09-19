@@ -14,6 +14,8 @@ class ProdukAPI extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_produk' => 'required',
+            'jenis' => 'required',
+            'ukuran' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -72,6 +74,8 @@ class ProdukAPI extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_produk' => 'required',
+            'jenis' => 'required',
+            'ukuran' => 'required',
         ]);
 
         if ($validator->fails()) {

@@ -41,6 +41,16 @@
                                                         <input type="text" class="form-control" id="nama_produk"
                                                             name="nama_produk" required>
                                                     </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Jenis</label>
+                                                        <input type="text" class="form-control" id="jenis"
+                                                            name="jenis" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ukuran</label>
+                                                        <input type="text" class="form-control" id="ukuran"
+                                                            name="ukuran" required>
+                                                    </div>
 
 
                                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -66,6 +76,16 @@
                                                         <label class="form-label">Nama Produk</label>
                                                         <input type="text" class="form-control" id="editnama_produk"
                                                             name="nama_produk" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Jenis</label>
+                                                        <input type="text" class="form-control" id="editjenis"
+                                                            name="jenis" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ukuran</label>
+                                                        <input type="text" class="form-control" id="editukuran"
+                                                            name="ukuran" required>
                                                     </div>
 
                                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -120,12 +140,16 @@
 
         function editdata(value) {
             $('#editnama_produk').val('');
+            $('#editjenis').val('');
+            $('#editukuran').val('');
             setTimeout(() => {
                 $.get('{{ url('') }}/api/produk/show/' + value, function(data,
                     status) {
                     if (data.error == false) {
                         $('#editid').val(value);
                         $('#editnama_produk').val(data.result.nama_produk);
+                        $('#editjenis').val(data.result.jenis);
+                        $('#editukuran').val(data.result.ukuran);
                     }
                 });
             }, 100);

@@ -4,6 +4,8 @@
             <tr>
                 <th>#</th>
                 <th>Nama Produk</th>
+                <th>Jenis</th>
+                <th>Ukuran</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -15,6 +17,8 @@
                 <tr>
                     <td>{{ $no }}</td>
                     <td>{{ $row->nama_produk }}</td>
+                    <td>{{ $row->jenis }}</td>
+                    <td>{{ $row->ukuran }}</td>
                     <td>
                         <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#edit"
                             onclick='editdata({{ $row->id }})'>Update</button>

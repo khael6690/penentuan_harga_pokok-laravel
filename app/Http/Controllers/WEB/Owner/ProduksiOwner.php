@@ -58,9 +58,13 @@ class ProduksiOwner extends Controller
                 'pelanggan' => Pelanggan::where('id',$produksi->pelanggan_id)->first(),
                 'produk' => Produk::where('id',$produksi->produk_id)->first(),
                 'biaya_bahan_baku' => BiayaBahanBaku::where('produksi_id',$produksi_id)->sum('total'),
+                'bahan_baku' => BiayaBahanBaku::where('produksi_id',$produksi_id)->get(),
                 'biaya_bahan_penolong' => BiayaBahanPenolong::where('produksi_id',$produksi_id)->sum('total'),
+                'bahan_penolong' => BiayaBahanPenolong::where('produksi_id',$produksi_id)->get(),
                 'biaya_tenaga_kerja_langsung' => BiayaTKLangsung::where('produksi_id',$produksi_id)->sum('total_tarif'),
+                'tenaga_kerja_langsung' => BiayaTKLangsung::where('produksi_id',$produksi_id)->get(),
                 'biaya_tenaga_kerja_tidak_langsung' => BiayaTKTidakLangsung::where('produksi_id',$produksi_id)->sum('total_tarif'),
+                'tenaga_kerja_tidak_langsung' => BiayaTKTidakLangsung::where('produksi_id',$produksi_id)->get(),
                 'biaya_overhead_tetap' => BiayaOverheadTetap::where('produksi_id',$produksi_id)->get(),
                 'biaya_overhead_variabel' => BiayaOverheadVariabel::where('produksi_id',$produksi_id)->get(),
             );
