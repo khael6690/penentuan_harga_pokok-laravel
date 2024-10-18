@@ -37,7 +37,7 @@
                     <div class="row justify-content-center">
                         <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
                             @if (!empty(@(new \App\Models\Perusahaan)::first()->foto))
-                            <img src="{{url('')}}/uploads/perusahaan/logo/{{@(new \App\Models\Perusahaan)::first()->foto}}" width="300" height="300" alt="">
+                            <img src="{{url('')}}/uploads/perusahaan/logo/{{@(new \App\Models\Perusahaan)::first()->foto}}" width="150" height="150" alt="logo">
                             @endif
                             <div class="d-flex justify-content-center py-4">
                                 <a href="{{url('')}}" class="logo d-flex align-items-center w-auto">
